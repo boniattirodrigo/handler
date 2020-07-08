@@ -25,7 +25,7 @@ func renderPlayground(w http.ResponseWriter, r *http.Request) {
 	d := playgroundData{
 		PlaygroundVersion:    graphcoolPlaygroundVersion,
 		Endpoint:             r.URL.Path,
-		SubscriptionEndpoint: fmt.Sprintf("wss://%v/subscriptions", r.Host),
+		SubscriptionEndpoint: fmt.Sprintf("%v/subscriptions", r.Host),
 		SetTitle:             true,
 	}
 	err = t.ExecuteTemplate(w, "index", d)
@@ -95,10 +95,12 @@ add "&raw" to the end of the URL within a browser.
     </div>
   </div>
   <script>window.addEventListener('load', function (event) {
+      const protocol = window.location.protocol === "https:" ? "wss://" : "ws://"
+
       GraphQLPlayground.init(document.getElementById('root'), {
         // options as 'endpoint' belong here
         endpoint: {{ .Endpoint }},
-        subscriptionEndpoint: {{ .SubscriptionEndpoint }},
+        subscriptionEndpoint: protocol + {{ .SubscriptionEndpoint }},
         setTitle: {{ .SetTitle }}
       })
     })</script>
