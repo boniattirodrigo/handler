@@ -25,7 +25,7 @@ func renderPlayground(w http.ResponseWriter, r *http.Request) {
 	d := playgroundData{
 		PlaygroundVersion:    graphcoolPlaygroundVersion,
 		Endpoint:             r.URL.Path,
-		SubscriptionEndpoint: fmt.Sprintf("ws://%v/subscriptions", r.Host),
+		SubscriptionEndpoint: fmt.Sprintf("wss://%v/subscriptions", r.Host),
 		SetTitle:             true,
 	}
 	err = t.ExecuteTemplate(w, "index", d)
